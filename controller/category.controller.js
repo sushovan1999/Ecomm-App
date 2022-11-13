@@ -32,11 +32,42 @@ let getAllCategories = async (req,res,next)=> {
  
 }
 
+let getCategoryById = async (req, res)=>{
 
-
-let getCategoryById = (req, res, next) =>{
-    res.write("I am at category page : " + req.params.categoryId);
-    res.end()
+    let id = req.params.categoryId;
+    if(!id){
+        res.status(400).send("ID not passed");
+    }
+    let Categories = await categories.findAll({
+        where : {
+            id : id
+        }
+    });
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.write(JSON.stringify(Categories));
+    res.end();
 }
 
-module.exports = { getAllCategories, getCategoryById }
+let addNewCategory = async (res,req,next) =>{
+    let categoryToAdd = req.body.name;
+    await categories.create({
+        name : categoryToAdd
+    });
+
+    res.status(201).send("New category added");
+    res.end();
+}
+
+let deleteCategoryById = async (req,res,next) => {
+    let id = req.params.categoryId;
+    await categories.destroy({
+        where : {
+            id : id
+        }
+    });
+
+    res.status(200).send("category deleted");
+    res.end();
+}
+
+module.exports = { getAllCategories, getCategoryById, addNewCategory, deleteCategoryById}

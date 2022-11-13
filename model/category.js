@@ -1,16 +1,22 @@
 let sequelize = require("sequelize");
 let dbconnection = require("../config/db.config");
 
-module.exports = dbconnection.define("categories", {
+let categoryModel = dbconnection.define("categories", {
     id : {
         primaryKey: true,
-        notNull: true,
-        type: sequelize.DataTypes.INTEGER,
-        autoIncrement: true
+        type: sequelize.DataTypes.BIGINT,
+        autoIncrement: true,
+        notNull: true
     },
     name : {
-        notNull: true,
+        allowNull: false,
         type: sequelize.DataTypes.STRING,
+        notNull: true
     }
-})
+},
+{
+    timestamps : false
+    }
+)
 
+module.exports=categoryModel;
