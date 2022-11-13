@@ -67,7 +67,7 @@ let insertProducts = async() =>{
         ]
 );
 }
-insertProducts();
 // createTable();
+// insertProducts();
 
 module.exports = {getAllProducts , getProductById }
