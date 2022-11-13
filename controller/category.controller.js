@@ -48,7 +48,7 @@ let getCategoryById = async (req, res)=>{
     res.end();
 }
 
-let addNewCategory = async (res,req,next) =>{
+let addNewCategory = async (req,res,next) =>{
     let categoryToAdd = req.body.name;
     await categories.create({
         name : categoryToAdd
