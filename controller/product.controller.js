@@ -24,6 +24,32 @@ let getProductById =async (req, res)=>{
     res.end();
 }
 
+let addNewProduct = async(req,res,next) => {
+    let nameToAdd = req.body.name;
+    let priceToAdd = req.body.price;
+    let categoryIdToAdd = req.body.categoryId;
+    await Products.create({
+        name : nameToAdd,
+        price : priceToAdd,
+        categoryId : categoryIdToAdd
+    });
+
+    res.status(201).send("New product added");
+    res.end();
+}
+
+let deleteProductById = async (req,res,next) => {
+    let id = req.params.productId;
+    await Products.destroy({
+        where : {
+            id : id
+        }
+    });
+
+    res.status(200).send("product deleted");
+    res.end();
+}
+
 
 
 let createTable =async () => {
@@ -70,4 +96,4 @@ let insertProducts = async() =>{
 // createTable();
 // insertProducts();
 
-module.exports = {getAllProducts , getProductById }
+module.exports = {getAllProducts , getProductById, addNewProduct, deleteProductById }
