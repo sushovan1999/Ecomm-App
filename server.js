@@ -4,8 +4,9 @@ const serverConfig = require("./config/server.config");
 const router = require("./routes/index");
 const ErrorHandler = require("./middlewares/Errorhandler")
 const expressApp = express();
-expressApp.use(router);
+
 expressApp.use(bodyParser.json());
+expressApp.use(router);
 expressApp.use(ErrorHandler);
 
 
