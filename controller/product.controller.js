@@ -50,6 +50,25 @@ let deleteProductById = async (req,res,next) => {
     res.end();
 }
 
+let updateProductById = async (req,res,next) => {
+   
+    if(!req.body.name){
+        res.status(500).send("please pass Products name");
+        res.end();
+    }
+    let id = req.params.productId;
+     let ProductsToUpdate ={
+         name : req.body.name,
+    }
+    await Products.update(ProductsToUpdate, {
+        where : {
+            id : id
+    }});
+   let updateProducts = await Products.findByPk(id);
+    res.status(200).send(updateProducts);
+    
+}
+
 
 
 let createTable =async () => {
@@ -96,4 +115,4 @@ let insertProducts = async() =>{
 // createTable();
 // insertProducts();
 
-module.exports = {getAllProducts , getProductById, addNewProduct, deleteProductById }
+module.exports = {getAllProducts ,updateProductById, getProductById, addNewProduct, deleteProductById }

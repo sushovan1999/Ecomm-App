@@ -49,13 +49,16 @@ let getCategoryById = async (req, res)=>{
 }
 
 let addNewCategory = async (req,res,next) =>{
+    try {
     let categoryToAdd = req.body.name;
-    await categories.create({
+        await categories.create({
         name : categoryToAdd
-    });
-
-    res.status(201).send("New category added");
-    res.end();
+        });
+     res.status(201).send("New category added");
+     res.end();
+    } catch (err) {
+        next(err);
+    }   
 }
 
 let deleteCategoryById = async (req,res,next) => {
@@ -70,4 +73,23 @@ let deleteCategoryById = async (req,res,next) => {
     res.end();
 }
 
-module.exports = { getAllCategories, getCategoryById, addNewCategory, deleteCategoryById}
+let updateCategoryById = async (req,res,next) => {
+    if(!req.body.name){
+        res.status(500).send("please pass category name");
+        res.end();
+    }
+   
+    let id = req.params.categoryId;
+     let categoryToUpdate ={
+         name : req.body.name,
+    }
+    await category.update(categoryToUpdate, {
+        where : {
+            id : id
+    }});
+   let updateCategory = await categories.findByPk(id);
+    res.status(200).send(updateCategory);
+
+}
+let all = {updateCategoryById, getAllCategories, getCategoryById, addNewCategory, deleteCategoryById}
+module.exports = all;
