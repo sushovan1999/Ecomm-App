@@ -1,27 +1,6 @@
 let categories = require("../model/category");
 let sequelizeInstance = require("../config/db.config");
-let createTable = async () => {
-  await sequelizeInstance.sync({ force: true });
-  insertCategories();
-  console.log("Table created successfully");
-};
-let insertCategories = async () => {
-  await categories.bulkCreate([
-    {
-      name: "Fashion",
-    },
-    {
-      name: "mobile",
-    },
-    {
-      name: "Electronics",
-    },
-    {
-      name: "Appliances",
-    },
-  ]);
-};
-// createTable();
+
 let getAllCategories = async (req, res, next) => {
   let cate = await categories.findAll();
   res.writeHead(200, { "Content-Type": "application/json" });
@@ -36,8 +15,7 @@ let getCategoryById = async (req, res) => {
       id: id,
     },
   });
-  res.writeHead(200, { "Content-Type": "application/json" });
-  res.write(JSON.stringify(Categories));
+  res.status(200).json(Categories);
   res.end();
 };
 
@@ -76,7 +54,7 @@ let updateCategoryById = async (req, res, next) => {
     },
   });
   let updateCategory = await categories.findByPk(id);
-  res.status(200).send(updateCategory);
+  res.status(200).json(updateCategory);
   res.end();
 };
 let all = {

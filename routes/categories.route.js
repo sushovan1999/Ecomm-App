@@ -11,14 +11,14 @@ categoryRouter.get(
 categoryRouter.put(
   "/:categoryId",
   [
-    requestValidator.validateRequestForCategoryName,
+    requestValidator.validateReqForCategoryName,
     requestValidator.validateReqForCategoryId,
   ],
   categoryController.updateCategoryById
 );
 categoryRouter.post(
   "/",
-  [requestValidator.validateRequestForCategoryName],
+  [requestValidator.validateReqForCategoryName],
   categoryController.addNewCategory
 );
 categoryRouter.delete(

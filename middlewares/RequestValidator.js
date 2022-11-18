@@ -1,8 +1,9 @@
-const categories = require("../model/category");
-const validateRequestForCategoryName = (req, res, next) => {
+const Categories = require("./../model/category");
+
+const validateReqForCategoryName = (req, res, next) => {
   if (!req.body.name) {
     res.status(400).send({
-      messege: "category name is void",
+      message: "Category name is required",
     });
   }
   next();
@@ -11,18 +12,18 @@ const validateRequestForCategoryName = (req, res, next) => {
 const validateReqForCategoryId = async (req, res, next) => {
   let categoryId = req.params.categoryId;
   if (categoryId) {
-    let category = await categories.findByPk(categoryId);
+    let category = await Categories.findByPk(categoryId);
     if (!category) {
       res.status(400).send({
-        messege: "category does not exist",
+        message: "Category does not exist",
       });
     }
   } else {
     res.status(400).send({
-      messege: "category id is missing",
+      message: "Category id is missing",
     });
   }
-  next();
+  res.end();
 };
 
-module.exports = { validateRequestForCategoryName, validateReqForCategoryId };
+module.exports = { validateReqForCategoryName, validateReqForCategoryId };
