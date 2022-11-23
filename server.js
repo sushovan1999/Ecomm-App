@@ -7,6 +7,7 @@ const expressApp = express();
 const dbconnection = require("../Ecomm App/config/db.config");
 const category = require("./model/category");
 const Products = require("./model/product");
+const Roles = require("./model/roles");
 expressApp.use(bodyParser.json());
 expressApp.use(router);
 expressApp.use(ErrorHandler);
@@ -16,6 +17,7 @@ category.hasMany(Products);
 let init = async () => {
   await dbconnection.sync({ force: true });
   insertCategories();
+  insertRoles();
 };
 let insertCategories = async () => {
   await category.bulkCreate([
@@ -30,6 +32,18 @@ let insertCategories = async () => {
     },
     {
       name: "Appliances",
+    },
+  ]);
+};
+let insertRoles = async () => {
+  Roles.bulkCreate([
+    {
+      id: 1,
+      name: "user",
+    },
+    {
+      id: 2,
+      name: "admin",
     },
   ]);
 };
