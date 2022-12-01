@@ -1,9 +1,8 @@
 const db = require("./../model/index");
 
 let getAllCategories = async (req, res, next) => {
-  let cate = await db.category.findAll();
-  res.writeHead(200, { "Content-Type": "application/json" });
-  res.write(JSON.stringify(cate, null, 2));
+  let categories = await db.category.findAll();
+  res.status(200).json(categories);
   res.end();
 };
 
