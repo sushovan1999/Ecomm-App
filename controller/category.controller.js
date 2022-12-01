@@ -1,9 +1,14 @@
 const db = require("./../model/index");
 
 let getAllCategories = async (req, res, next) => {
-  let categories = await db.category.findAll();
-  res.status(200).json(categories);
-  res.end();
+  try {
+    let categories = await db.category.findAll();
+    res.status(200).json(categories);
+  } catch (err) {
+    res.status(400).json({
+      message: "Some internal error occured",
+    });
+  }
 };
 
 let getCategoryById = async (req, res) => {
