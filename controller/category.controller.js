@@ -1,8 +1,7 @@
-let categories = require("../model/category");
-let sequelizeInstance = require("../config/db.config");
+const db = require("./../model/index");
 
 let getAllCategories = async (req, res, next) => {
-  let cate = await categories.findAll();
+  let cate = await db.category.findAll();
   res.writeHead(200, { "Content-Type": "application/json" });
   res.write(JSON.stringify(cate, null, 2));
   res.end();
@@ -10,7 +9,7 @@ let getAllCategories = async (req, res, next) => {
 
 let getCategoryById = async (req, res) => {
   let id = req.params.categoryId;
-  let Categories = await categories.findAll({
+  let Categories = await db.category.findAll({
     where: {
       id: id,
     },
@@ -22,7 +21,7 @@ let getCategoryById = async (req, res) => {
 let addNewCategory = async (req, res, next) => {
   try {
     let categoryToAdd = req.body.name;
-    await categories.create({
+    await db.category.create({
       name: categoryToAdd,
     });
     res.status(201).send("New category added");
@@ -34,7 +33,7 @@ let addNewCategory = async (req, res, next) => {
 
 let deleteCategoryById = async (req, res, next) => {
   let id = req.params.categoryId;
-  await categories.destroy({
+  await db.category.destroy({
     where: {
       id: id,
     },
@@ -48,12 +47,12 @@ let updateCategoryById = async (req, res, next) => {
   let categoryToUpdate = {
     name: req.body.name,
   };
-  await categories.update(categoryToUpdate, {
+  await db.category.update(categoryToUpdate, {
     where: {
       id: id,
     },
   });
-  let updateCategory = await categories.findByPk(id);
+  let updateCategory = await db.category.findByPk(id);
   res.status(200).json(updateCategory);
   res.end();
 };

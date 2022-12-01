@@ -3,24 +3,23 @@ let bodyParser = require("body-parser");
 const serverConfig = require("./config/server.config");
 const router = require("./routes/index");
 const ErrorHandler = require("./middlewares/Errorhandler");
+const db = require("./model/index");
 const expressApp = express();
-const dbconnection = require("../Ecomm App/config/db.config");
-const category = require("./model/category");
-const Products = require("./model/product");
-const Roles = require("./model/roles");
+
 expressApp.use(bodyParser.json());
 expressApp.use(router);
 expressApp.use(ErrorHandler);
 
-category.hasMany(Products);
+db.category.hasMany(db.product);
 
 let init = async () => {
-  await dbconnection.sync({ force: true });
+  await db.connection.sync({ force: true });
   insertCategories();
+  insertProducts();
   insertRoles();
 };
 let insertCategories = async () => {
-  await category.bulkCreate([
+  await db.category.bulkCreate([
     {
       name: "Fashion",
     },
@@ -36,7 +35,7 @@ let insertCategories = async () => {
   ]);
 };
 let insertRoles = async () => {
-  Roles.bulkCreate([
+  db.roles.bulkCreate([
     {
       id: 1,
       name: "user",
@@ -44,6 +43,40 @@ let insertRoles = async () => {
     {
       id: 2,
       name: "admin",
+    },
+  ]);
+};
+let insertProducts = async () => {
+  await db.product.bulkCreate([
+    {
+      name: "Hrx",
+      categoryId: 1,
+      price: 18000,
+    },
+    {
+      name: "Iphone 13",
+      categoryId: 2,
+      price: 60000,
+    },
+    {
+      name: "Sony bravia",
+      categoryId: 3,
+      price: 40000,
+    },
+    {
+      name: "Boat Rugged",
+      categoryId: 4,
+      price: 4000,
+    },
+    {
+      name: "JBL Storm",
+      categoryId: 4,
+      price: 9000,
+    },
+    {
+      name: "Vu 5",
+      categoryId: 3,
+      price: 32000,
     },
   ]);
 };
